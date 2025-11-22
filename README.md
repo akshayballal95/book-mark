@@ -1,3 +1,7 @@
+# BookMark
+
+BookMark is a tool designed to help readers pick up where they left off in a book. When you leave reading a book after a long time, you may forget the characters, key events, and plot details. With this tool, you can enter the page number up to which you've finished reading, get a summary of everything that happened so far, and seamlessly continue reading.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

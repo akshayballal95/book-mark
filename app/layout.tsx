@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BookWorm",
+  title: "BookMark",
   description: "Summarize books upto your desired page with AI",
 };
 

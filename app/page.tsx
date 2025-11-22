@@ -94,7 +94,7 @@ export default function Home() {
                 <BookOpen className="w-6 h-6" />
               </div>
               <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Book Worm
+                BookMark
               </h1>
             </motion.div>
           </div>
@@ -111,7 +111,12 @@ export default function Home() {
                 transition={{ delay: 0.1 }}
                 className="max-w-lg mx-auto"
               >
-                <h2 className="text-2xl font-semibold mb-6">Generate Summary</h2>
+                <h2 className="text-2xl font-semibold mb-3">Generate Summary</h2>
+                <p className="text-zinc-600 dark:text-zinc-400 mb-6 text-sm leading-relaxed">
+                  When you leave reading a book after a long time, you may forget the characters, key events, and plot details. 
+                  With this tool, you can enter the page number up to which you've finished reading, get a summary of everything 
+                  that happened so far, and seamlessly pick up where you left off.
+                </p>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-4">
                     <h3 className="text-lg font-medium">Upload your book</h3>
