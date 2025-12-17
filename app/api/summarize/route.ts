@@ -120,7 +120,7 @@ async function generateWithOpenAI(apiKey: string, prompt: string): Promise<Reada
     const openai = new OpenAI({ apiKey });
     
     const stream = await openai.chat.completions.create({
-        model: "gpt-5.1-nano",
+        model: "gpt-4.1-mini",
         messages: [
             {
                 role: "user",
@@ -184,10 +184,6 @@ export async function POST(req: NextRequest) {
         }
 
         // Truncate text if it's too long for the model context window
-        const maxLength = 100000; // characters
-        if (text.length > maxLength) {
-            text = text.substring(0, maxLength) + "...[truncated]";
-        }
 
         const prompt = `You are a helpful reading assistant. The user is reading a book and has reached page (or chapter) ${pageNumber}. 
     Below is the text of the book up to that point. 
@@ -205,7 +201,7 @@ export async function POST(req: NextRequest) {
     Book Content:
     ${text}`;
 
-        // Generate summary based on selected provider
+        // Generate summary based    on selected provider
         const stream = provider === "openai" 
             ? await generateWithOpenAI(apiKey, prompt)
             : await generateWithGemini(apiKey, prompt);
