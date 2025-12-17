@@ -1,43 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import OpenAI from "openai";
+import { extractText } from "unpdf";
 // @ts-ignore
 import { createRequire } from "module";
-
-// Polyfill for pdf-parse which might depend on DOMMatrix
-// @ts-ignore
-if (typeof DOMMatrix === "undefined") {
-    // @ts-ignore
-    global.DOMMatrix = class DOMMatrix { };
-}
 
 const require = createRequire(import.meta.url);
 // epub2 exports an object with EPub class
 const epub2Module = require("epub2");
 const EPub = epub2Module.EPub || epub2Module.default || epub2Module;
 
-// Helper to parse PDF
+// Helper to parse PDF using unpdf (serverless-compatible)
 async function parsePdf(buffer: Buffer, maxPage: number): Promise<string> {
-    // pdf-parse v2.4.5 uses a class-based API
-    const { PDFParse } = require("pdf-parse");
+    const { text, totalPages } = await extractText(buffer, { mergePages: false });
     
-    // Create a new PDFParse instance with the buffer
-    const parser = new PDFParse({
-        data: buffer,
-    });
+    // text is an array of strings, one per page when mergePages is false
+    const pagesToExtract = Math.min(maxPage, totalPages);
+    const extractedText = text.slice(0, pagesToExtract).join("\n");
     
-    try {
-        // Get text from the first N pages
-        const result = await parser.getText({
-            first: maxPage,
-        });
-        
-        // result.text contains the concatenated text from all requested pages
-        return result.text;
-    } finally {
-        // Clean up resources
-        await parser.destroy();
-    }
+    return extractedText;
 }
 
 // Helper to parse EPUB
