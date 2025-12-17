@@ -12,7 +12,9 @@ const EPub = epub2Module.EPub || epub2Module.default || epub2Module;
 
 // Helper to parse PDF using unpdf (serverless-compatible)
 async function parsePdf(buffer: Buffer, maxPage: number): Promise<string> {
-    const { text, totalPages } = await extractText(buffer, { mergePages: false });
+    // Convert Buffer to Uint8Array as required by unpdf
+    const uint8Array = new Uint8Array(buffer);
+    const { text, totalPages } = await extractText(uint8Array, { mergePages: false });
     
     // text is an array of strings, one per page when mergePages is false
     const pagesToExtract = Math.min(maxPage, totalPages);
